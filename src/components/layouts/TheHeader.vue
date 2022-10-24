@@ -2,7 +2,10 @@
   <header>
     <nav>
        <router-link to="/"><h1>Living together</h1></router-link> 
-       <router-link to="/residents"><h1>Residents</h1></router-link> 
+       <div>
+         <router-link to="/login"><h1>Login</h1></router-link> 
+         <router-link to="/signup"><h1>Signup</h1></router-link> 
+       </div>
   
     </nav>
 
@@ -32,20 +35,27 @@ nav {
   margin: auto;
 }
 
-nav > a {
+a {
   text-decoration: none;
   color: black;
   padding: .5vw 1vw;
+  border-radius: 100vw;
+  border:  transparent;
+
 
 } 
 a:active,
 a:hover,
 a.router-link-active {
-  text-decoration: none;
-  border: 1px solid #b5b5b5;
-  border-radius: 100vw;
+  border: #b5b5b5;
   background-color: white;
+
 } 
+
+nav > div  {
+  display: flex;
+  gap: 5vw
+}
 
 
 </style>

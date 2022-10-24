@@ -12,7 +12,10 @@ export default {
 
 <style scoped>
     form {
-        border: 2px solid red
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: auto;
     }
 
 
