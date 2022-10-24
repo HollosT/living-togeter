@@ -1,11 +1,16 @@
 <template>
   <header>
     <nav>
-       <router-link to="/"><h1>Living together</h1></router-link> 
-       <div>
-         <router-link to="/login"><h1>Login</h1></router-link> 
-         <router-link to="/signup"><h1>Signup</h1></router-link> 
-       </div>
+      <li>
+        <router-link to="/"><h1>Living together</h1></router-link> 
+      </li>
+
+      <li v-if="isLoggedIn">
+        <base-button @click="logout" type="filled">Logout</base-button> 
+      </li>
+      <li v-else>
+        <router-link to="/auth"><h1>Login</h1></router-link> 
+      </li>
   
     </nav>
 
@@ -13,7 +18,25 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
+import { useStore } from 'vuex'
+
 export default {
+
+  setup() {
+    const store = useStore()
+
+    const isLoggedIn = computed(() => {
+      return store.getters.isAuthenticated
+    })
+
+
+    function logout() {
+      store.dispatch('logout')
+    }
+
+    return{ isLoggedIn, logout}
+  }
 
 }
 </script>
@@ -35,7 +58,12 @@ nav {
   margin: auto;
 }
 
-a {
+li {
+  list-style: none;
+}
+
+li a {
+
   text-decoration: none;
   color: black;
   padding: .5vw 1vw;
@@ -44,9 +72,9 @@ a {
 
 
 } 
-a:active,
-a:hover,
-a.router-link-active {
+li a:active,
+li a:hover,
+ li a.router-link-active {
   border: #b5b5b5;
   background-color: white;
 
