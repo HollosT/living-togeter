@@ -1,16 +1,13 @@
 <template>
   <header>
     <nav>
-      <li>
-        <router-link to="/"><h1>Living together</h1></router-link> 
-      </li>
 
-      <li v-if="isLoggedIn">
-        <base-button @click="logout" type="filled">Logout</base-button> 
-      </li>
-      <li v-else>
-        <router-link to="/auth"><h1>Login</h1></router-link> 
-      </li>
+        <router-link to="/"><h1>Living together</h1></router-link> 
+
+
+        <base-button v-if="isLoggedIn" @click="logout" type="filled">Logout</base-button> 
+
+        <router-link  v-else to="/auth"><h1>Login</h1></router-link> 
   
     </nav>
 
@@ -58,11 +55,8 @@ nav {
   margin: auto;
 }
 
-li {
-  list-style: none;
-}
 
-li a {
+ a {
 
   text-decoration: none;
   color: black;
@@ -72,12 +66,11 @@ li a {
 
 
 } 
-li a:active,
-li a:hover,
- li a.router-link-active {
+ a:active,
+ a:hover,
+ a.router-link-active {
   border: #b5b5b5;
   background-color: white;
-
 } 
 
 nav > div  {

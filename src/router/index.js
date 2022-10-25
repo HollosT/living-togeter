@@ -33,7 +33,7 @@ const routes = [
     component: useAuth
   },
   {
-    path: '/residents',
+    path: '/residents/:bid',
     name: 'residentlist',
     component: residentList,
   }

@@ -44,7 +44,7 @@ export default {
                 flats: responseData[key].flats,
                 name: responseData[key].name,
                 description: responseData[key].description,
-
+                // residents: [responseData[key].residents]
             }
 
             buildings.push(building)
