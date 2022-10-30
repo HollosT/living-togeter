@@ -4,6 +4,7 @@ import residentList from '../pages/residents/ResidentList.vue'
 import buildingDetail from '../pages/buildings/BuildingDetail.vue'
 import buildingRegistration from '../pages/buildings/BuildingRegistration.vue'
 import useAuth from '../pages/auth/UseAuth.vue'
+import community from '../pages/community/Community.vue'
 
 
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/residents/:bid',
     name: 'residentlist',
     component: residentList,
+  },
+  {
+    path: '/community/',
+    name: 'community',
+    component: community,
   }
 
 ]

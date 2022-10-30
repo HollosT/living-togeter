@@ -67,12 +67,17 @@ export default {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('email');
+        localStorage.removeItem('buildingMember')
 
 
         context.commit('setUser', {
             userId: null,
             token: null,
             email: null,
+        })
+
+        context.commit('residents/setMember', {
+            buildingMember: null,
         })
     }
 

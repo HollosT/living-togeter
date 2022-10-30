@@ -6,6 +6,7 @@
 
 
         <base-button v-if="isLoggedIn" @click="logout" type="filled">Logout</base-button> 
+        <base-button v-if="isLoggedIn" @click="getMember" link to="/community" type="filled">My community</base-button> 
 
         <router-link  v-else to="/auth"><h1>Login</h1></router-link> 
   
@@ -32,7 +33,12 @@ export default {
       store.dispatch('logout')
     }
 
-    return{ isLoggedIn, logout}
+    async function getMember() {
+      const userId = localStorage.getItem('userId')
+      store.dispatch('residents/fetchApplication', userId)
+    }
+
+    return{ isLoggedIn, logout, getMember}
   }
 
 }
