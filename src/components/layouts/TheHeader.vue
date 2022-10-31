@@ -5,8 +5,11 @@
         <router-link to="/"><h1>Living together</h1></router-link> 
 
 
-        <base-button v-if="isLoggedIn" @click="logout" type="filled">Logout</base-button> 
-        <base-button v-if="isLoggedIn" @click="getMember" link to="/community" type="filled">My community</base-button> 
+        <base-button v-if="isLoggedIn" @click="getMember"  type="filled">My community</base-button> 
+        <base-button v-if="isLoggedIn" @click="getProfile"  link type="filled">Profile</base-button> 
+
+
+        <base-button v-if="isLoggedIn" @click="logout" type="filled">Logout</base-button>
 
         <router-link  v-else to="/auth"><h1>Login</h1></router-link> 
   
@@ -16,13 +19,17 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
 
   setup() {
     const store = useStore()
+    const buildingId = ref('')
+    const router = useRouter()
+    const userId = ref('')
 
     const isLoggedIn = computed(() => {
       return store.getters.isAuthenticated
@@ -31,14 +38,28 @@ export default {
 
     function logout() {
       store.dispatch('logout')
+      router.replace('/')
+
+    }
+
+     function getProfile() {
+     userId.value = localStorage.getItem('userId')
+
+     router.push('/profiles/' + userId.value)
     }
 
     async function getMember() {
       const userId = localStorage.getItem('userId')
-      store.dispatch('residents/fetchApplication', userId)
+
+      if(!localStorage.getItem('buildingMember')) {
+        await store.dispatch('residents/fetchApplication', userId)
+      } 
+      
+      buildingId.value = localStorage.getItem('buildingMember')
+      router.push('/community/' + buildingId.value)
     }
 
-    return{ isLoggedIn, logout, getMember}
+    return{ isLoggedIn, logout, getMember, buildingId, getProfile, userId}
   }
 
 }

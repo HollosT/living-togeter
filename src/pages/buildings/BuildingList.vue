@@ -1,7 +1,7 @@
 <template>
   <base-card>
   <div class="intro">
-     <h2>Building list</h2>
+     <h2>Community list</h2>
      <base-button link to="/buildings/registration" type="filled">Register a new community</base-button>
   </div>
 

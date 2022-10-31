@@ -61,7 +61,7 @@ export default {
         for(const key in responseData) {
             for(const innerKey in responseData[key]) {
                 if(responseData[key][innerKey].userId === payload) {
-                    localStorage.setItem('memberBuilding', responseData[key][innerKey].buildingId)
+                    localStorage.setItem('buildingMember', responseData[key][innerKey].buildingId)
                     context.commit('setMember', responseData[key][innerKey].buildingId)
                 }
             }

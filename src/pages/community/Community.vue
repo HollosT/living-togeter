@@ -1,36 +1,62 @@
 <template>
-  This is the community page
+<base-card>
+        <h2>{{building.name}}</h2>
 
-  <h2 v-for="applicant in applications" :key="applicant.userId">{{applicant.email}}</h2>
+        <community-list :members="members"></community-list>
+</base-card>
+
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import CommunityList from '@/components/community/CommunityList.vue'
+import BaseCard from '@/components/UI/BaseCard.vue'
 
 export default {
+  components: { CommunityList, BaseCard },
     setup() {
         const store = useStore()
-        const applications = ref([])
+        const building = ref({})
+        const members = ref([])
 
-       async function getMembers() {
-            const buildingId = localStorage.getItem('memberBuilding')
-            try{
+
+        async function init() {
+            const buildingId = localStorage.getItem('buildingMember')
+            try {
+                // Fetch the current building
+                await store.dispatch('buildings/loadBuilding', buildingId)
+
+               const curBuilding = await store.getters['buildings/buildings']
+                building.value = curBuilding
+
+
+                // Fetch the residents of the building
                 await store.dispatch('residents/fetchApplications', buildingId)
 
-               const wannaBeApplicants =  await store.getters['residents/getApplications']
-               applications.value = wannaBeApplicants
+                const curApplications = await store.getters['residents/getApplications']
 
+               for(const key in curApplications) {
+                   const userId = curApplications[key].userId;
+
+                   await store.dispatch('profiles/fetchProfile', userId)
+
+                   const wannabeMember = await store.getters['profiles/getProfile']
+                   members.value.push(wannabeMember)
+
+                    
+               }
+               console.log(members.value);
             } catch(err) {
                 console.log(err);
             }
-              
-        }
 
-        getMembers()
+        }
+        
+        init()
         
 
-        return {applications}
+        return {building, members}
     }
 
 
