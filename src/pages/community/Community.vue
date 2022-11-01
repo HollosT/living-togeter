@@ -2,7 +2,12 @@
 <base-card>
         <h2>{{building.name}}</h2>
 
-        <community-list :members="members"></community-list>
+            <community-list :members="members"></community-list>
+    
+            <post></post>
+            
+     
+
 </base-card>
 
 </template>
@@ -12,10 +17,11 @@ import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import CommunityList from '@/components/community/CommunityList.vue'
 import BaseCard from '@/components/UI/BaseCard.vue'
+import Post from '@/components/community/Post.vue'
 
 export default {
-  components: { CommunityList, BaseCard },
-    setup() {
+  components: { CommunityList, BaseCard, Post },
+     setup() {
         const store = useStore()
         const building = ref({})
         const members = ref([])
@@ -46,7 +52,6 @@ export default {
 
                     
                }
-               console.log(members.value);
             } catch(err) {
                 console.log(err);
             }
@@ -63,6 +68,8 @@ export default {
 }
 </script>
 
-<style>
+<style >
+
+
 
 </style>
