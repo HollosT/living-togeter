@@ -48,7 +48,8 @@ export default {
                     post: path.post,
                     date: path.date,
                     firstName: path.firstName,
-                    lastName: path.lastName
+                    lastName: path.lastName,
+                    likes: path.likes ? path.likes : []
                 }
                 
                 posts.push(postWannabe)
@@ -60,14 +61,11 @@ export default {
 
     async like(_, payload) {
         try{
-            console.log(payload);
-            const likeWannabe = {
-                ...payload,
-            }
+            
 
             const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
                 method: 'PUT',
-                body: JSON.stringify(likeWannabe)
+                body: JSON.stringify(payload)
             })
 
             if(!response.ok) {

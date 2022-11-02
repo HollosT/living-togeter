@@ -35,13 +35,14 @@ export default {
         }
 
         async function liked(post) {
-
-              const likeArr = post.likes
-              likeArr.push(post.userId)
+            const userId = localStorage.getItem('userId')
+            const newLikes = post.likes
+            newLikes.push(userId)
             const payload = {
                 ...post,
+                likes: newLikes,
                 buildingId: localStorage.getItem('buildingMember'),
-                userId: localStorage.getItem('userId'),
+                userId: userId,
             }
             
             

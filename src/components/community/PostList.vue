@@ -7,11 +7,11 @@
 
         <div class="like-container">
           <div>
-            <p>0</p>
+            <p>{{post.likes.length}}</p>
             <base-button @click="addLike(post)">Like</base-button>
           </div>
           <div>
-            <p>0</p>
+            <p>1</p>
             <base-button>Dislike</base-button>
           </div>
           <div>
@@ -31,10 +31,7 @@ export default {
 
         function addLike(post) {
             
-            context.emit('addLike', {
-              ...post,
-              
-            })
+            context.emit('addLike', post)
         }
 
         return{addLike}
