@@ -7,7 +7,8 @@ export default {
             post: payload.post,
             date: payload.date,
             firstName: payload.firstName,
-            lastName: payload.lastName
+            lastName: payload.lastName,
+            likes: []
         }
 
         const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}.json`, {
@@ -55,4 +56,30 @@ export default {
         }
         context.commit('addPosts', posts)
     },
+
+
+    async like(_, payload) {
+        try{
+            console.log(payload);
+            const likeWannabe = {
+                ...payload,
+            }
+
+            const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(likeWannabe)
+            })
+
+            if(!response.ok) {
+                const error = new Error(response.message || 'Failed to send request.')
+                throw error
+            }
+            
+        const responseData = await response.json()
+            console.log(responseData);
+
+        } catch(err) {
+
+        }
+    }
 }

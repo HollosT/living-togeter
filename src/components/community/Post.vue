@@ -9,7 +9,7 @@
         </div>
   </div>
   <p v-if="!posts.length > 0">There are no posts for this community yet...</p>
-  <post-list v-else :posts="posts"></post-list>
+  <post-list v-else :posts="posts" @addLike="liked"></post-list>
 </template>
 
 <script>
@@ -20,7 +20,6 @@ import PostList from './PostList.vue'
 
 export default {
   components: { PostList },
-
 
     setup() {
         const store = useStore()
@@ -33,6 +32,26 @@ export default {
         }
         function cancelPost() {
             isPosting.value = false
+        }
+
+        async function liked(post) {
+
+              const likeArr = post.likes
+              likeArr.push(post.userId)
+            const payload = {
+                ...post,
+                buildingId: localStorage.getItem('buildingMember'),
+                userId: localStorage.getItem('userId'),
+            }
+            
+            
+            try {
+                await store.dispatch('posts/like', payload)
+
+
+            }catch(err) {
+                console.log(err);
+            }
         }
 
         async function uploadPost(e) {
@@ -84,7 +103,7 @@ export default {
 
         init()
 
-        return {addPost, isPosting, cancelPost, post, uploadPost, posts}
+        return {addPost, isPosting, cancelPost, post, uploadPost, posts, liked}
     }
 }
 </script>
