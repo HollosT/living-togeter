@@ -1,3 +1,5 @@
+import { onErrorCaptured } from "vue"
+
 export default {
     async generatePost(context, payload) {
 
@@ -8,6 +10,7 @@ export default {
             date: payload.date,
             firstName: payload.firstName,
             lastName: payload.lastName,
+            buildingId: payload.buildingId,
             likes: []
         }
 
@@ -49,7 +52,8 @@ export default {
                     date: path.date,
                     firstName: path.firstName,
                     lastName: path.lastName,
-                    likes: path.likes ? path.likes : []
+                    likes: path.likes ? path.likes : [],
+                    buildingId: path.buildingId
                 }
                 
                 posts.push(postWannabe)
@@ -61,23 +65,43 @@ export default {
 
     async like(_, payload) {
         try{
+            console.log(payload);
+            // Checking whether the user already applied
+            const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
             
+            const postResponse = await post.json()
 
-            const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
-                method: 'PUT',
-                body: JSON.stringify(payload)
-            })
+            
+            if(postResponse.likes && postResponse.likes.length > 0 && postResponse.likes.includes(payload.curUser) ) {
+               const error = new Error( 'You already liked this post.')
+               throw error
+            } else {
+                const newLikes = payload.likes
+                newLikes.push(payload.curUser)
+    
+                const likeWannabe = {
+                    ...payload,
+                    likes: newLikes
+                }
+    
+    
+                const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify(likeWannabe)
+                })
+    
+                if(!response.ok) {
+                    const error = new Error(response.message || 'Failed to send request.')
+                    throw error
+                }
+                
+                const responseData = await response.json()
 
-            if(!response.ok) {
-                const error = new Error(response.message || 'Failed to send request.')
-                throw error
             }
             
-        const responseData = await response.json()
-            console.log(responseData);
-
+       
         } catch(err) {
-
+            console.log(err);
         }
     }
 }

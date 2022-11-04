@@ -36,18 +36,11 @@ export default {
 
         async function liked(post) {
             const userId = localStorage.getItem('userId')
-            const newLikes = post.likes
-            newLikes.push(userId)
-            const payload = {
-                ...post,
-                likes: newLikes,
-                buildingId: localStorage.getItem('buildingMember'),
-                userId: userId,
-            }
-            
-            
             try {
-                await store.dispatch('posts/like', payload)
+                await store.dispatch('posts/like', {
+                    ...post,
+                    curUser: userId
+                })
 
 
             }catch(err) {

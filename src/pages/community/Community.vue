@@ -17,7 +17,7 @@ import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import CommunityList from '@/components/community/CommunityList.vue'
 import BaseCard from '@/components/UI/BaseCard.vue'
-import Post from '@/components/community/Post.vue'
+import Post from '@/components/community/Posts.vue'
 
 export default {
   components: { CommunityList, BaseCard, Post },
