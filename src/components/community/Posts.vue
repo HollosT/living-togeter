@@ -27,6 +27,7 @@ export default {
         const post = ref('')
         const posts = ref([])
         const isLikedPosts = ref([])
+        const isLiked = ref(false)
 
         function addPost() {
             isPosting.value = true
@@ -37,7 +38,7 @@ export default {
 
      
         async function addInteraction(payload) {
-            
+
             const userId = localStorage.getItem('userId')
             try {
                 await store.dispatch('posts/interactionWithThePost', {
@@ -48,6 +49,10 @@ export default {
 
             }catch(err) {
                 console.log(err);
+            }
+
+            if(payload.mode === 'likes') {
+                isLiked.value = !isLiked.value
             }
         }
 

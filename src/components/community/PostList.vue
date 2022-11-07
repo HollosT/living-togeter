@@ -7,7 +7,7 @@
 
         <div class="like-container">
           <div>
-            <base-button @click="interaction(post, 'likes')" :class="{likedByMe: isLikedPosts.includes(post.postId)}"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
+            <base-button @click="interaction(post, 'likes')"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
           </div>
           <div>
             <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} </base-button>
@@ -28,19 +28,9 @@ export default {
     props: ['posts', 'isLikedPosts'],
     setup(props, context) {
 
-        const liked = ref(false)
-
-        function isLiked() {
-          props.isLikedPosts.forEach(post => {
-            if(post.postId === props.posts.postId) {
-
-            }
-          })
-        }
-        isLiked();
 
         function interaction(post, mode) {
-            liked.value = !liked.value
+            
             const payload = {
               ...post,
               mode: mode
@@ -48,9 +38,10 @@ export default {
             context.emit('interaction', payload)
         }
 
+    
        
 
-        return {interaction, liked}
+        return {interaction}
     }
 
 }
