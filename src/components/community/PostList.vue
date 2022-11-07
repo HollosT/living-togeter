@@ -7,16 +7,14 @@
 
         <div class="like-container">
           <div>
-            <p>{{post.likes.length}}</p>
-            <base-button @click="addLike(post)">Like</base-button>
+            <base-button @click="interaction(post, 'likes')" :class="{likedByMe: isLikedPosts.includes(post.postId)}"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
           </div>
           <div>
-            <p>1</p>
-            <base-button>Dislike</base-button>
+            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} </base-button>
           </div>
           <div>
             <p>0</p>
-            <base-button>Add comment</base-button>
+            <base-button @click="interaction(post, 'comments')">Comments</base-button>
           </div>
         </div>
     </li>
@@ -24,17 +22,35 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 export default {
-    emits: ['addLike'],
-    props: ['posts'],
-    setup(_, context) {
+    emits: ['interaction'],
+    props: ['posts', 'isLikedPosts'],
+    setup(props, context) {
 
-        function addLike(post) {
-            
-            context.emit('addLike', post)
+        const liked = ref(false)
+
+        function isLiked() {
+          props.isLikedPosts.forEach(post => {
+            if(post.postId === props.posts.postId) {
+
+            }
+          })
+        }
+        isLiked();
+
+        function interaction(post, mode) {
+            liked.value = !liked.value
+            const payload = {
+              ...post,
+              mode: mode
+            }
+            context.emit('interaction', payload)
         }
 
-        return{addLike}
+       
+
+        return {interaction, liked}
     }
 
 }
@@ -50,6 +66,10 @@ export default {
   display: flex;
   margin-right: 5vw;
 
+}
+
+.likedByMe {
+  background: red;
 }
 
 </style>

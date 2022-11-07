@@ -9,7 +9,7 @@
         </div>
   </div>
   <p v-if="!posts.length > 0">There are no posts for this community yet...</p>
-  <post-list v-else :posts="posts" @addLike="liked"></post-list>
+  <post-list v-else :posts="posts" :isLikedPosts="isLikedPosts" @interaction="addInteraction"></post-list>
 </template>
 
 <script>
@@ -26,6 +26,7 @@ export default {
         const isPosting = ref(false)
         const post = ref('')
         const posts = ref([])
+        const isLikedPosts = ref([])
 
         function addPost() {
             isPosting.value = true
@@ -34,11 +35,13 @@ export default {
             isPosting.value = false
         }
 
-        async function liked(post) {
+     
+        async function addInteraction(payload) {
+            
             const userId = localStorage.getItem('userId')
             try {
-                await store.dispatch('posts/like', {
-                    ...post,
+                await store.dispatch('posts/interactionWithThePost', {
+                    ...payload,
                     curUser: userId
                 })
 
@@ -82,11 +85,14 @@ export default {
 
         async function init() {
             try {
-                
+  
                 await store.dispatch('posts/loadPosts', localStorage.getItem('buildingMember'))
 
                 const postsArr = store.getters['posts/getPosts']
-                console.log(postsArr);
+                
+                const isLikedArr = store.getters['posts/isLiked']
+                isLikedPosts.value = isLikedArr
+
                 posts.value = postsArr
 
 
@@ -97,7 +103,7 @@ export default {
 
         init()
 
-        return {addPost, isPosting, cancelPost, post, uploadPost, posts, liked}
+        return {addPost, isPosting, cancelPost, post, uploadPost, posts, addInteraction, isLikedPosts}
     }
 }
 </script>

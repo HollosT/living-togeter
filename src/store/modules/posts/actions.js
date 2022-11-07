@@ -11,7 +11,8 @@ export default {
             firstName: payload.firstName,
             lastName: payload.lastName,
             buildingId: payload.buildingId,
-            likes: []
+            likes: [],
+            dislikes: [],
         }
 
         const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}.json`, {
@@ -53,6 +54,7 @@ export default {
                     firstName: path.firstName,
                     lastName: path.lastName,
                     likes: path.likes ? path.likes : [],
+                    dislikes: path.dislikes ? path.dislikes : [],
                     buildingId: path.buildingId
                 }
                 
@@ -63,86 +65,60 @@ export default {
     },
 
 
-    async like(_, payload) {
-        try{
-            console.log(payload);
-            // Checking whether the user already applied
-            const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
-            
-            const postResponse = await post.json()
-
-            
-            if(postResponse.likes && postResponse.likes.length > 0 && postResponse.likes.includes(payload.curUser) ) {
-               const error = new Error( 'You already liked this post.')
-               throw error
-            } else {
-                const newLikes = payload.likes
-                newLikes.push(payload.curUser)
-    
-                const likeWannabe = {
-                    ...payload,
-                    likes: newLikes
-                }
-    
-    
-                const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
-                    method: 'PUT',
-                    body: JSON.stringify(likeWannabe)
-                })
-    
-                if(!response.ok) {
-                    const error = new Error(response.message || 'Failed to send request.')
-                    throw error
-                }
-                
-                const responseData = await response.json()
-
-            }
-            
-       
-        } catch(err) {
-            console.log(err);
-        }
-    },
 
 
     async interactionWithThePost(_, payload) {
         try{
-            let interaction = payload.interaction
-
+            let interactionType = payload.mode
+            
             // Checking whether the user already applied
             const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
             
             const postResponse = await post.json()
 
-            
-            if(postResponse.interaction && postResponse.interaction.length > 0 && postResponse.interaction.includes(payload.curUser) ) {
-               const error = new Error( `You already ${interaction}d this post!`)
+            let newInteraction;
+
+            if(postResponse[interactionType] && postResponse[interactionType].length > 0 && postResponse[interactionType].includes(payload.curUser) ) {
+               const error = new Error( `You already ${interactionType}d this post!`)
                throw error
             } else {
 
-                switch(interaction) {
-                    case 'likes': //.....
+                switch(interactionType) {
+                    case 'likes':
+                        newInteraction = payload.likes
+                        
                     break;
 
-                    case 'dislikes': //...
+                    case 'dislikes': 
+                        newInteraction = payload.dislikes
+                  
                     break;
 
-                    
+                    case 'comments': 
+                    break;     
                 }
 
-                const newInteraction = payload.likes
-                newLikes.push(payload.curUser)
+                
+                newInteraction.push(payload.curUser)
+
+
     
-                const likeWannabe = {
-                    ...payload,
-                    likes: newLikes
+                const interactionWannabe = {
+                    userId: payload.userId,
+                    email: payload.email,
+                    post: payload.post,
+                    date: payload.date,
+                    firstName: payload.firstName,
+                    lastName: payload.lastName,
+                    buildingId: payload.buildingId,
+                    likes: interactionType === 'likes' ? newInteraction : payload.likes,
+                    dislikes: interactionType === 'dilikes' ? newInteraction : payload.dislikes,
                 }
     
     
                 const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
                     method: 'PUT',
-                    body: JSON.stringify(likeWannabe)
+                    body: JSON.stringify(interactionWannabe)
                 })
     
                 if(!response.ok) {
@@ -151,6 +127,7 @@ export default {
                 }
                 
                 const responseData = await response.json()
+
 
             }
             
@@ -160,5 +137,5 @@ export default {
         }
     }
 }
-}
+
 
