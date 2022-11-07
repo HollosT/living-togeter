@@ -103,5 +103,62 @@ export default {
         } catch(err) {
             console.log(err);
         }
+    },
+
+
+    async interactionWithThePost(_, payload) {
+        try{
+            let interaction = payload.interaction
+
+            // Checking whether the user already applied
+            const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
+            
+            const postResponse = await post.json()
+
+            
+            if(postResponse.interaction && postResponse.interaction.length > 0 && postResponse.interaction.includes(payload.curUser) ) {
+               const error = new Error( `You already ${interaction}d this post!`)
+               throw error
+            } else {
+
+                switch(interaction) {
+                    case 'likes': //.....
+                    break;
+
+                    case 'dislikes': //...
+                    break;
+
+                    
+                }
+
+                const newInteraction = payload.likes
+                newLikes.push(payload.curUser)
+    
+                const likeWannabe = {
+                    ...payload,
+                    likes: newLikes
+                }
+    
+    
+                const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify(likeWannabe)
+                })
+    
+                if(!response.ok) {
+                    const error = new Error(response.message || 'Failed to send request.')
+                    throw error
+                }
+                
+                const responseData = await response.json()
+
+            }
+            
+       
+        } catch(err) {
+            console.log(err);
+        }
     }
 }
+}
+
