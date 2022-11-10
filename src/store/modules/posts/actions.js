@@ -1,4 +1,4 @@
-import { onErrorCaptured } from "vue"
+
 
 export default {
     async generatePost(context, payload) {
@@ -65,10 +65,59 @@ export default {
     },
 
 
-
-
-    async interactionWithThePost(_, payload) {
+    async uninteraction(_, payload) {
         try{
+            const interaction = payload.mode
+            const index =  payload[interaction].indexOf(payload.curUser)
+
+            let interactionArr = payload[interaction]
+            
+            interactionArr.splice(index, 1)
+
+            
+            const updatePost = {
+                userId: payload.userId,
+                email: payload.email,
+                post: payload.post,
+                date: payload.date,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                buildingId: payload.buildingId,
+            }
+
+            if(interaction === 'likes') {
+                updatePost.dislikes = payload.dislikes
+                updatePost.likes = interactionArr
+            } else if(interaction === 'dislikes') {
+                updatePost.likes = payload.likes
+                updatePost.dislikes = interactionArr
+            }
+    
+            const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(updatePost)
+            })
+
+             if(!response.ok) {
+                    const error = new Error(response.message || 'Failed to send request.')
+                    throw error
+                }
+                
+                const responseData = await response.json()
+
+
+
+
+        }catch(err) {
+            console.log(err);
+        }
+    },
+
+
+
+    async interactionWithThePost(context, payload) {
+        try{
+
             let interactionType = payload.mode
             
             // Checking whether the user already applied
@@ -78,9 +127,10 @@ export default {
 
             let newInteraction;
 
-            if(postResponse[interactionType] && postResponse[interactionType].length > 0 && postResponse[interactionType].includes(payload.curUser) ) {
-               const error = new Error( `You already ${interactionType}d this post!`)
-               throw error
+            if(postResponse[interactionType] && postResponse[interactionType].includes(payload.curUser) ) {
+                
+                 context.dispatch('uninteraction', payload)
+
             } else {
 
                 switch(interactionType) {

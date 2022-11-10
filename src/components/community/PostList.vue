@@ -10,7 +10,7 @@
             <base-button @click="interaction(post, 'likes')"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
           </div>
           <div>
-            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} </base-button>
+            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
           </div>
           <div>
             <p>0</p>
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+
 export default {
     emits: ['interaction'],
     props: ['posts', 'isLikedPosts'],
-    setup(props, context) {
+    setup(_, context) {
 
 
         function interaction(post, mode) {
