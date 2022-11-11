@@ -13,6 +13,7 @@ export default {
             buildingId: payload.buildingId,
             likes: [],
             dislikes: [],
+            comments: []
         }
 
         const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}.json`, {
@@ -55,6 +56,7 @@ export default {
                     lastName: path.lastName,
                     likes: path.likes ? path.likes : [],
                     dislikes: path.dislikes ? path.dislikes : [],
+                    comments: path.comments ? path.comments : [],
                     buildingId: path.buildingId
                 }
                 
@@ -83,6 +85,7 @@ export default {
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 buildingId: payload.buildingId,
+                comments: payload.comments
             }
 
             if(interaction === 'likes') {
@@ -115,10 +118,12 @@ export default {
 
 
 
+
     async interactionWithThePost(context, payload) {
         try{
 
             let interactionType = payload.mode
+
             
             // Checking whether the user already applied
             const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
@@ -128,7 +133,6 @@ export default {
             let newInteraction;
 
             if(postResponse[interactionType] && postResponse[interactionType].includes(payload.curUser) ) {
-                
                  context.dispatch('uninteraction', payload)
 
             } else {
@@ -161,6 +165,7 @@ export default {
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     buildingId: payload.buildingId,
+                    comments: payload.comments,
                     likes: interactionType === 'likes' ? newInteraction : payload.likes,
                     dislikes: interactionType === 'dilikes' ? newInteraction : payload.dislikes,
                 }
@@ -178,10 +183,7 @@ export default {
                 
                 const responseData = await response.json()
 
-
             }
-            
-       
         } catch(err) {
             console.log(err);
         }

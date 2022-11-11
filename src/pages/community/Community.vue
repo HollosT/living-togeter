@@ -4,7 +4,7 @@
 
             <community-list :members="members"></community-list>
     
-            <post></post>
+            <post-list></post-list>
             
      
 
@@ -17,10 +17,10 @@ import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import CommunityList from '@/components/community/CommunityList.vue'
 import BaseCard from '@/components/UI/BaseCard.vue'
-import Post from '@/components/community/Posts.vue'
+import PostList from '@/components/community/PostList.vue'
 
 export default {
-  components: { CommunityList, BaseCard, Post },
+  components: { CommunityList, BaseCard, PostList },
      setup() {
         const store = useStore()
         const building = ref({})
