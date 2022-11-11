@@ -10,9 +10,8 @@
   </div>
   <p v-if="!posts.length > 0">There are no posts for this community yet...</p>
   <ul v-else>
-      <post-item   v-for="post in posts" :key="post.postId" :post="post"  @interaction="addInteraction"></post-item>
+      <post-item v-for="post in posts" :key="post.postId" :post="post"  @interaction="addInteraction"></post-item>
   </ul>
-  <!-- <post-item v-else :posts="posts" :isLikedPosts="isLikedPosts" @interaction="addInteraction"></post-item> -->
 </template>
 
 <script>
@@ -97,7 +96,6 @@ export default {
 
                 const postsArr = store.getters['posts/getPosts']
                
-
                 posts.value = postsArr
 
 

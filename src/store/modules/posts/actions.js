@@ -108,9 +108,6 @@ export default {
                 
                 const responseData = await response.json()
 
-
-
-
         }catch(err) {
             console.log(err);
         }
@@ -124,7 +121,6 @@ export default {
 
             let interactionType = payload.mode
 
-            
             // Checking whether the user already applied
             const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
             
@@ -148,8 +144,9 @@ export default {
                   
                     break;
 
-                    case 'comments': 
-                    break;     
+                    // case 'comments': 
+                    //     context.dispatch('addComment', payload)
+                    // break;     
                 }
 
                 
@@ -187,7 +184,30 @@ export default {
         } catch(err) {
             console.log(err);
         }
-    }
+    },
+    async addComment(context, payload) {
+    
+        try{
+            
+            const response = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(payload)
+            })
+    
+            if(!response.ok) {
+                const error = new Error(response.message || 'Failed to send request.')
+                throw error
+            }
+                
+            const responseData = await response.json()
+
+
+        } catch(err) {
+            console.log(err);
+        }
+    },
+
+
 }
 
 

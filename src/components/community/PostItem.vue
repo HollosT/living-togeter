@@ -5,16 +5,16 @@
         <p>{{post.date[0]}} - {{post.date[1]}}</p>
         <p>{{post.firstName}}</p>
 
-        <div class="like-container">
-          <div>
+        <div class="interaction-contianer">
+          <div class="btn-container">
             <base-button @click="interaction(post, 'likes')"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
+            
+            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
+            
+            <base-button @click="toggleComments">{{commentCaption}}</base-button>
           </div>
           <div>
-            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
-          </div>
-          <div class="comment-container">
-            <base-button @click="toggleComments">{{commentCaption}}</base-button>
-            <Comments v-if="commentsVisible" />
+            <CommentList :comments="post.comments" v-if="commentsVisible" @addComment="getComment" />
           </div>
         </div>
     </li>
@@ -22,14 +22,15 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import Comments from './comments/Comments.vue'
+import CommentList from './comments/CommentList.vue'
 import { computed } from '@vue/runtime-core';
+import store from '@/store';
 
 
 export default {
-    components: {Comments},
+    components: {CommentList},
     emits: ['interaction'],
-    props: ['key', 'post'],
+    props: ['post'],
     setup(props, context) {
         const commentsVisible = ref(false)
 
@@ -43,6 +44,7 @@ export default {
         }
 
         const commentCaption = computed(() => {
+          
           const commentNum = props.post.comments.length
           if(commentNum) {
             return commentNum === 1 ? `${commentNum} comment` : `${commentNum} comments`
@@ -56,10 +58,40 @@ export default {
           commentsVisible.value = !commentsVisible.value
         }
 
+        async function getComment(comment) {
+            try{  
+                const userId = localStorage.getItem('userId')
+                await store.dispatch('profiles/fetchProfile', userId)
+                const profile = await store.getters['profiles/getProfile']
+              
+                const curDate = new Date().toLocaleString('eu-dk').split(',')
+                const commentsWannabe = {
+                  body: comment,
+                  userId: userId,
+                  buildingId: props.post.buildingId,
+                  commentDate: curDate,
+                  firstName: profile.firstName,
+                  lastName: profile.lastName
+                }
+
+                const commentsArr = props.post.comments
+                commentsArr.push(commentsWannabe)
+
+
+                
+                const payload = {
+                    ...props.post,
+                    comments: commentsArr
+                }
+                await store.dispatch('posts/addComment', payload)
+            }catch(err) {
+              console.log(err);
+            }
+        }
     
        
 
-        return {interaction, toggleComments, commentsVisible, commentCaption}
+        return {interaction, toggleComments, commentsVisible, commentCaption, getComment}
     }
 
 }
@@ -67,23 +99,13 @@ export default {
 
 <style scoped>
 
-.like-container {
+.btn-container {
   display: flex;
-  
-}
-.like-container > div {
-  display: flex;
-  margin-right: 5vw;
-
-}
-
-.likedByMe {
-  background: red;
+  gap: 10px;
 }
 
 .comment-container {
-  display: flex;
-  flex-direction: column;
+ width: 100%;
 }
 
 </style>
