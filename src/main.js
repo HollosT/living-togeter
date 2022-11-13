@@ -7,6 +7,7 @@ import store from './store/index.js'
 import BaseCard from './components/UI/BaseCard.vue'
 import BaseButton from './components/UI/BaseButton.vue'
 import BaseForm from './components/UI/BaseForm.vue'
+import BaseSidebar from './components/UI/BaseSidebar.vue'
 
 // Global css
 import './assets/global.css'
@@ -20,5 +21,6 @@ app.use(router)
 app.component('base-card', BaseCard)
 app.component('base-button', BaseButton)
 app.component('base-form', BaseForm)
+app.component('base-sidebar', BaseSidebar)
 
 app.mount('#app')

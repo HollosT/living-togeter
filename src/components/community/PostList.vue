@@ -1,13 +1,16 @@
 <template>
-  <h2>Posts</h2>
-  <base-button v-if="!isPosting" @click="addPost" type="filled">Share your thoughts...</base-button>
-  <div v-if="isPosting">
-      <textarea  cols="50" rows="5" autofocus placeholder="..." v-model.trim="post"></textarea>
-        <div>
-            <base-button @click="cancelPost" type="filled">Cancel</base-button>
-            <base-button  @click="uploadPost" type="filled">Post</base-button>
+    <div class="addpost-container">
+        <transition-group name="addpost">
+            <base-button v-if="!isPosting" @click="addPost" type="filled">Share your thoughts...</base-button>
+            <div v-if="isPosting">
+                    <textarea  cols="80" rows="5" autofocus placeholder="..." v-model.trim="post"></textarea>
+                    <div class="addpost-btn-container">
+                        <base-button @click="cancelPost" type="filled">Cancel</base-button>
+                        <base-button  @click="uploadPost" type="filled">Add</base-button>
+                    </div>
+            </div>
+        </transition-group>
         </div>
-  </div>
   <p v-if="!posts.length > 0">There are no posts for this community yet...</p>
   <ul v-else>
       <post-item v-for="post in posts" :key="post.postId" :post="post"  @interaction="addInteraction"></post-item>
@@ -111,6 +114,37 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+
+.addpost-container {
+    width: max-content;
+}
+
+.addpost-btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 2vw;
+}   
+
+
+/* Transition */
+.addpost-enter-active {
+    animation: addModal 350ms ease-in;
+}
+.addpost-leave-active {
+    animation: addModal 350ms ease-in reverse;
+}
+
+@keyframes addModal {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    } to {
+        opacity: 1;
+    transform: translateY(0) scale(1);
+    }
+}
 
 </style>

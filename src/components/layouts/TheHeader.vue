@@ -22,8 +22,10 @@
 import { computed, ref } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import BaseButton from '../UI/BaseButton.vue'
 
 export default {
+  components: { BaseButton },
 
   setup() {
     const store = useStore()

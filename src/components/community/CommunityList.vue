@@ -2,8 +2,10 @@
         <ul>
             <li v-for="member in members" :key="member.userId" class="member-list">
                 <img :src="member.url" :alt="member.firstName">
-                <p>{{member.firstName}} {{member.lastName}}</p>
-                <p>Flat: {{member.flatAddress}}</p>
+                <div>
+                    <p>{{member.firstName}} {{member.lastName}}</p>
+                    <address>Flat: {{member.flatAddress}}</address>
+                </div>
             </li>
         </ul>
 </template>
@@ -24,16 +26,23 @@ export default {
     flex-direction: row;
     gap: 2vw;
     align-items: center;
-    border: 1px solid var(--mildgrey);
-    max-width: 30vw;
-    border-radius: 10px;
-    margin-bottom: 2vw;
+    background: var(--blockgreen);
+    max-width: 25vw;
+    margin-top: 2%;
 }
 .member-list img {
     width: 20%;
     object-fit: contain;
-    border-radius: 10px;
+    
 }
+
+.member-list div {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: .2vw;
+}
+
 
 
 

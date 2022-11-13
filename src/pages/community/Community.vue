@@ -1,26 +1,25 @@
 <template>
-<base-card>
-        <h2>{{building.name}}</h2>
-
-            <community-list :members="members"></community-list>
-    
-            <post-list></post-list>
+    <section>
+        <base-sidebar title="Members">
             
-     
-
-</base-card>
-
+            <community-list :members="members"></community-list>
+        </base-sidebar>
+        <base-card>
+                <h2>{{building.name}}</h2>
+                
+            <post-list></post-list>
+        </base-card>
+    </section>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import CommunityList from '@/components/community/CommunityList.vue'
-import BaseCard from '@/components/UI/BaseCard.vue'
 import PostList from '@/components/community/PostList.vue'
 
 export default {
-  components: { CommunityList, BaseCard, PostList },
+  components: { CommunityList, PostList },
      setup() {
         const store = useStore()
         const building = ref({})
@@ -68,7 +67,18 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
+
+section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+div {
+        display: flex;
+        flex-direction: column;
+        gap: 4vw;
+}
 
 
 

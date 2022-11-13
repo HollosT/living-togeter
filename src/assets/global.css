@@ -29,12 +29,57 @@
     --blockgreen: #39b385;
     --darkgreen: #2c936b;
     --darkestgreen: #24634b;
-    --gradient-primary: linear-gradient(#39b385, #9be15d);
+    --gradient-primary: linear-gradient(#76a8c5, #d3e7f3);
     --black: #252525;
 
-    --clicked: white;
-    --wave: #76a8c5;
+
+
+    /* Font sizes */
+    --fs-25: 0.7rem;
+    --fs-50: 0.8rem;
+    --fs-100: 1.125rem;
+    --fs-200: 1.25rem;
+    --fs-300:  1.5rem;
+    --fs-500: 2rem;
+    --fs-600: 2.25rem;
+    --fs-800: 3rem;
 }
+
+
+
+h1 {
+    font-size: var(--fs-500);
+}
+
+h2 {
+    font-size: var(--fs-500);
+}
+h4 {
+    font-size: var(--fs-200);
+}
+h5 {
+    font-size: var(--fs-100);
+    font-weight: 100;
+}
+
+a {
+    font-size: var(--fs-200);
+}
+ li{
+    font-size: var(--fs-100);
+}
+
+p {
+    font-size: var(--fs-50);
+
+}
+
+address {
+    font-size: var(--fs-25);
+    text-decoration: none;
+}
+
+
 
 li {
     list-style: none;
