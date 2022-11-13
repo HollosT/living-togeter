@@ -1,17 +1,20 @@
 <template>
 
     <li>
+      <div class="post-content-container">
         <p>{{post.post}}</p> 
         <p>{{post.date[0]}} - {{post.date[1]}}</p>
         <p>{{post.firstName}}</p>
 
+      </div>
+
         <div class="interaction-contianer">
           <div class="btn-container">
-            <base-button @click="interaction(post, 'likes')"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
+            <base-button @click="interaction(post, 'likes')" type="reverse"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
             
-            <base-button @click="interaction(post, 'dislikes')"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
+            <base-button @click="interaction(post, 'dislikes')" type="reverse"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
             
-            <base-button @click="toggleComments">{{commentCaption}}</base-button>
+            <base-button @click="toggleComments" type="reverse">{{commentCaption}}</base-button>
           </div>
           <div>
             <CommentList :comments="post.comments" v-if="commentsVisible" @addComment="getComment" />
@@ -98,6 +101,18 @@ export default {
 </script>
 
 <style scoped>
+
+
+li {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4vw;
+  box-shadow: 2px 2px 2px rgba(0,0,0, .225);
+  border-radius: 5px;
+  padding: 2%;
+  border-left: 5px solid  var(--blockgreen);
+  
+}
 
 .btn-container {
   display: flex;
