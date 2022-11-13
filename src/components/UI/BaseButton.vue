@@ -57,6 +57,17 @@ a:active {
 
 }
 
+.grey {
+  background: var(--primarly);
+  transition: all 350ms ease-in-out;
+}
+
+.grey:hover {
+  background: var(--mildgrey);
+  color: white;
+}
+
+
 .filled:hover,
 .filled:active {
     background-color: var(--blue);

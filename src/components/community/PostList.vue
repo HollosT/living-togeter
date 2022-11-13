@@ -1,7 +1,7 @@
 <template>
     <div class="addpost-container">
+        <base-button @click="addPost" type="grey">Share your thoughts...</base-button>
         <transition-group name="addpost">
-            <base-button v-if="!isPosting" @click="addPost" type="filled">Share your thoughts...</base-button>
             <div v-if="isPosting">
                     <textarea  cols="80" rows="5" autofocus placeholder="..." v-model.trim="post"></textarea>
                     <div class="addpost-btn-container">
@@ -140,7 +140,7 @@ export default {
 @keyframes addModal {
     from {
         opacity: 0;
-        transform: translateY(-50px) scale(0.9);
+        transform: translateY(50px) scale(0.9);
     } to {
         opacity: 1;
     transform: translateY(0) scale(1);
