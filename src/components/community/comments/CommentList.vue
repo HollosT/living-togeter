@@ -28,6 +28,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.comment-container {
+  background: var(--lightyellow);
+}
 
 </style>

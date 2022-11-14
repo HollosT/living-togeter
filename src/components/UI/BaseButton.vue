@@ -71,11 +71,6 @@ a:active {
   background: transparent;
   box-shadow: none;
 }
-.reverse:hover {
-  cursor: pointer;
-  transition: all 250ms ease-in-out;
-  transform: translateY(-3px);
-}
 
 .filled:hover,
 .filled:active {

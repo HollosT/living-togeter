@@ -1,26 +1,29 @@
 <template>
 
+  
     <li>
       <div class="post-content-container">
-        <p>{{post.post}}</p> 
-        <p>{{post.date[0]}} - {{post.date[1]}}</p>
-        <p>{{post.firstName}}</p>
-
+        <div>
+          <h6 class="author">{{post.firstName}}</h6>
+          <time class="date">{{post.displayDate}} </time>
+        </div>
+        <p class="post">{{post.post}}</p> 
       </div>
 
         <div class="interaction-contianer">
           <div class="btn-container">
-            <base-button @click="interaction(post, 'likes')" type="reverse"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
+            <base-button  @click="interaction(post, 'likes')" type="reverse"> {{post.likes.length}} <i class="fa-regular fa-thumbs-up"></i></base-button>
             
             <base-button @click="interaction(post, 'dislikes')" type="reverse"> {{post.dislikes.length}} <i class="fa-regular fa-thumbs-down"></i> </base-button>
             
             <base-button @click="toggleComments" type="reverse">{{commentCaption}}</base-button>
           </div>
           <div>
-            <CommentList :comments="post.comments" v-if="commentsVisible" @addComment="getComment" />
+              <CommentList :comments="post.comments" v-if="commentsVisible" @addComment="getComment" />
+            </div>
           </div>
-        </div>
-    </li>
+        </li>
+
 </template>
 
 <script>
@@ -47,7 +50,7 @@ export default {
         }
 
         const commentCaption = computed(() => {
-          
+
           const commentNum = props.post.comments.length
           if(commentNum) {
             return commentNum === 1 ? `${commentNum} comment` : `${commentNum} comments`
@@ -110,8 +113,8 @@ li {
   box-shadow: 2px 2px 2px rgba(0,0,0, .225);
   border-radius: 5px;
   padding: 2%;
-  border-left: 5px solid  var(--blockgreen);
-  
+  border-left: 5px solid  var(--yellow);
+  width: 60vw;
 }
 
 .btn-container {
@@ -122,5 +125,35 @@ li {
 .comment-container {
  width: 100%;
 }
+
+.post-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+}
+.post-content-container > div {
+  padding: 0 1vw;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.post-content-container > p {
+  border-radius: 5px;
+  background: var(--primarly);
+  padding: 1vw;
+  margin-bottom: 1vw;
+}
+
+.active {
+  background: red;
+}
+
+.btn-container{
+  margin-bottom: 2vw;
+
+}
+
 
 </style>

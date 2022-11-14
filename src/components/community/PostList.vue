@@ -31,7 +31,6 @@ export default {
         const isPosting = ref(false)
         const post = ref('')
         const posts = ref([])
-        const isLiked = ref(false)
 
         function addPost() {
             isPosting.value = true
@@ -68,7 +67,7 @@ export default {
                 const profile = store.getters['profiles/getProfile']
 
 
-                const curDate = new Date().toLocaleString('eu-dk').split(',')
+                const curDate = new Date().getTime()
 
                 const postWannabe = {
                     buildingId: localStorage.getItem('buildingMember'),
@@ -93,14 +92,13 @@ export default {
         }
 
         async function init() {
+
             try {
-  
                 await store.dispatch('posts/loadPosts', localStorage.getItem('buildingMember'))
 
                 const postsArr = store.getters['posts/getPosts']
-               
-                posts.value = postsArr
 
+                posts.value = postsArr
 
             }catch (err) {
                 console.log(err);

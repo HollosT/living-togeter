@@ -26,9 +26,10 @@ export default {
     flex-direction: row;
     gap: 2vw;
     align-items: center;
-    background: var(--blockgreen);
+    background: var(--white);
     max-width: 25vw;
     margin-top: 2%;
+    border: 1px solid var(--primarly);
 }
 .member-list img {
     width: 20%;

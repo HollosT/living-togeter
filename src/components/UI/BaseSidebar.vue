@@ -16,8 +16,8 @@ export default {
 
 <style scoped>
     aside {
-        background: var(--lightgreen);
-        height: 100vh;
+        background: var(--lightyellow);
+        height: 100%;
         text-align: center;
         display: flex;
         flex-direction: column;

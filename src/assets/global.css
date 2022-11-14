@@ -74,7 +74,7 @@ p {
 
 }
 
-address {
+address, time {
     font-size: var(--fs-25);
     text-decoration: none;
 }
