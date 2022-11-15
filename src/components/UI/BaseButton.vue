@@ -57,14 +57,32 @@ a:active {
 
 }
 
-.grey {
-  background: var(--primarly);
-  transition: all 350ms ease-in-out;
+.inactive {
+    pointer-events: none;
+    background: var(--mildgrey);
+    box-shadow: none;
+    color: var(--primarly);
+
 }
 
-.grey:hover {
-  background: var(--mildgrey);
+.green {
+  background: var(--blockgreen);
   color: white;
+}
+.green:hover {
+  background: var(--darkgreen);
+}
+
+.secondary {
+  border: 1px solid black;
+  background: var(--white);
+  transition: all 350ms ease-in-out;
+  color: var(--black);
+}
+
+.secondary:hover {
+  background: var(--primarly);
+
 }
 
 .reverse {

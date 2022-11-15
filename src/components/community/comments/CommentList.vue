@@ -31,7 +31,15 @@ export default {
 <style scoped>
 
 .comment-container {
-  background: var(--lightyellow);
+  background: var(--primarly);
+  padding: 5%;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0, .225);
+
+}
+
+.add-comment__container {
+  width: 100%;
 }
 
 </style>

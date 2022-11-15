@@ -9,19 +9,17 @@ export default {
         //     posts[i].disliked = disliked;
 
         // })
-        
-        
-        
 
-        // Adjusting the date
+
+        // Adjusting the post date
         const oneDayMs = 86400000
         const now = new Date().getTime();
 
-        const dateArr = posts.map(post => post.date)
+        const postDateArr = posts.map(post => post.date)
         let updatedDate;
 
 
-        dateArr.forEach((date, i) => {
+        postDateArr.forEach((date, i) => {
             const difference = now - date
             
             if((difference / oneDayMs) < 1) {
@@ -44,8 +42,53 @@ export default {
             
         })
 
+
+        // Adjusting the comments date
+        let commentDateArr = []
+        let updatedCommentDate
+         posts.forEach((post, i) => {
+                const postCommentArr = post.comments.map(comment => comment.commentDate)
+                commentDateArr.push(postCommentArr)
+         })
+
+       
+
+        commentDateArr.forEach((commentArr, postIndex) => {
+
+            commentArr.forEach((comment, commentIndex) => {
+                const date = comment
+            
+                const difference = now - date
+                
+                if((difference / oneDayMs) < 1) {
+                    const generatedDate = new Date(date).toLocaleString('eu-dk').split(',')[1].slice(1, 6)
+    
+                    updatedCommentDate = `Today at ${generatedDate}`
+    
+                } else if  ((difference / oneDayMs) > 1 && (difference / oneDayMs) < 2) {
+                    updatedCommentDate = '1 day ago'
+    
+                } else if  ((difference / oneDayMs) > 2 && (difference / oneDayMs) < 3) {
+                    updatedCommentDate = '2 days ago'
+    
+                } else if ((difference / oneDayMs) > 3) {
+                    updatedCommentDate = 'More than 3 days ago...'
+                    
+                }
+
+                posts[postIndex].comments[commentIndex].commentDisplayedDate = updatedCommentDate
+            })
+
+           
+
+            
+        })
+
+
         return posts
     },
+
+
 
     isInteracted(state, _, _2, rootGetters) {
         const posts = state.allPosts

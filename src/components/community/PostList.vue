@@ -1,18 +1,17 @@
 <template>
     <div class="addpost-container">
-        <base-button @click="addPost" type="grey">Share your thoughts...</base-button>
-        <transition-group name="addpost">
-            <div v-if="isPosting">
-                    <textarea  cols="80" rows="5" autofocus placeholder="..." v-model.trim="post"></textarea>
+        <h4>Share your thoughts...</h4>
+            <div>
+                    <textarea :class="{invalidTextarea: !isValid}"  cols="80" :rows="rowLength" autofocus placeholder="..." v-model.trim="post" @focus="addjustRowLength" @blur="reduceRowLength"></textarea>
                     <div class="addpost-btn-container">
-                        <base-button @click="cancelPost" type="filled">Cancel</base-button>
-                        <base-button  @click="uploadPost" type="filled">Add</base-button>
+                        <base-button @click.prevent="cancel" type="secondary">Cancel</base-button>
+                        <base-button  @click="uploadPost" :type="buttonType">Post</base-button>
                     </div>
             </div>
-        </transition-group>
         </div>
   <p v-if="!posts.length > 0">There are no posts for this community yet...</p>
   <ul v-else>
+        <h3>Posts</h3>
       <post-item v-for="post in posts" :key="post.postId" :post="post"  @interaction="addInteraction"></post-item>
   </ul>
 </template>
@@ -21,6 +20,8 @@
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import PostItem from './PostItem.vue'
+import { watch } from '@vue/runtime-core';
+
 
 
 export default {
@@ -28,9 +29,11 @@ export default {
 
     setup() {
         const store = useStore()
-        const isPosting = ref(false)
         const post = ref('')
         const posts = ref([])
+        const isValid = ref(false)
+        const buttonType = ref('inactive')
+        const rowLength = ref(1)
 
         function addPost() {
             isPosting.value = true
@@ -39,6 +42,27 @@ export default {
             isPosting.value = false
         }
 
+        function cancel() {
+            post.value = ''
+        }
+
+        function addjustRowLength() {
+            rowLength.value = 5
+        }
+        function reduceRowLength() {
+            rowLength.value = 1
+        }
+
+
+        watch(post, (oldPost, newPost) => {
+            if(oldPost.length === 0 || newPost.length === 0) {
+                isValid.value = false
+                buttonType.value = 'inactive'
+            } else {
+                isValid.value = true
+                buttonType.value = 'green'
+            }
+        })
      
         async function addInteraction(payload) {
 
@@ -83,6 +107,7 @@ export default {
                 post.value = ''
                 e.target.value = ''
                 isPosting.value = false
+                rowLength.value = 1
                 
 
 
@@ -107,16 +132,26 @@ export default {
 
         init()
 
-        return {addPost, isPosting, cancelPost, post, uploadPost, posts, addInteraction}
+        return {addPost, cancelPost, post, uploadPost, posts, addInteraction, buttonType, isValid, cancel, rowLength, addjustRowLength, reduceRowLength}
     }
 }
 </script>
 
 <style scoped>
+textarea {
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    border-left: 5px solid var(--blockgreen);
+    box-shadow: 2px 2px 2px rgba(0,0,0, .225);   
+}
 
+.invalidTextarea {
+    border-left: 5px solid var(--mildgrey);
+}
 
 .addpost-container {
-    width: max-content;
+    width: 100%;
 }
 
 .addpost-btn-container {
@@ -126,23 +161,12 @@ export default {
     gap: 2vw;
 }   
 
-
-/* Transition */
-.addpost-enter-active {
-    animation: addModal 350ms ease-in;
-}
-.addpost-leave-active {
-    animation: addModal 350ms ease-in reverse;
+h5 {
+    margin-bottom: 2vw;
 }
 
-@keyframes addModal {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    } to {
-        opacity: 1;
-    transform: translateY(0) scale(1);
-    }
-}
+
+
+
 
 </style>

@@ -4,7 +4,7 @@
     <li>
       <div class="post-content-container">
         <div>
-          <h6 class="author">{{post.firstName}}</h6>
+          <h6 class="author">{{post.firstName}} {{post.lastName}}</h6>
           <time class="date">{{post.displayDate}} </time>
         </div>
         <p class="post">{{post.post}}</p> 
@@ -50,14 +50,22 @@ export default {
         }
 
         const commentCaption = computed(() => {
-
           const commentNum = props.post.comments.length
-          if(commentNum) {
-            return commentNum === 1 ? `${commentNum} comment` : `${commentNum} comments`
 
+          if(commentsVisible.value === false) {
+            return `${commentNum > 0 ? 'See comments (' + commentNum + ')' : 'Add comment'}`
           } else {
-            return 'Add comment'
+            return 'See less'
           }
+          
+
+          // if(commentNum) {
+          //   return commentNum === 1 ? `See comment (${commentNum})` : `See comments (${commentNum})`
+
+          // } 
+          // else {
+          //   return 'Add comment'
+          // }
         })
 
         function toggleComments() {
@@ -70,7 +78,7 @@ export default {
                 await store.dispatch('profiles/fetchProfile', userId)
                 const profile = await store.getters['profiles/getProfile']
               
-                const curDate = new Date().toLocaleString('eu-dk').split(',')
+                const curDate = new Date().getTime()
                 const commentsWannabe = {
                   body: comment,
                   userId: userId,
@@ -130,6 +138,7 @@ li {
   display: flex;
   flex-direction: column;
   gap: 1vw;
+
 }
 .post-content-container > div {
   padding: 0 1vw;
@@ -144,6 +153,8 @@ li {
   background: var(--primarly);
   padding: 1vw;
   margin-bottom: 1vw;
+  box-shadow: 2px 2px 2px rgba(0,0,0, .225);
+
 }
 
 .active {
