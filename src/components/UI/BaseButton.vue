@@ -85,6 +85,16 @@ a:active {
 
 }
 
+.nav {
+  background: none;
+  border: none;
+  box-shadow: none;
+  transition: all 250ms ease-in-out;
+}
+.nav:hover {
+  color: white;
+}
+
 .reverse {
   background: transparent;
   box-shadow: none;

@@ -2,7 +2,7 @@
   <base-card>
   <div class="intro">
      <h2>Community list</h2>
-     <base-button link to="/buildings/registration" type="filled">Register a new community</base-button>
+    
   </div>
 
   <h2 v-if="!hasBuildings">There is no registered buildings yet!</h2>

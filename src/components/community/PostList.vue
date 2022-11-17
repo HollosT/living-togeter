@@ -35,12 +35,7 @@ export default {
         const buttonType = ref('inactive')
         const rowLength = ref(1)
 
-        function addPost() {
-            isPosting.value = true
-        }
-        function cancelPost() {
-            isPosting.value = false
-        }
+       
 
         function cancel() {
             post.value = ''
@@ -63,6 +58,7 @@ export default {
                 buttonType.value = 'green'
             }
         })
+
      
         async function addInteraction(payload) {
 
@@ -106,17 +102,19 @@ export default {
                 await store.dispatch('posts/generatePost', postWannabe)
                 post.value = ''
                 e.target.value = ''
-                isPosting.value = false
                 rowLength.value = 1
-                
 
+                getPosts()
+           
 
             }catch(err) {
                 console.log(err);
             }
         }
 
-        async function init() {
+      
+
+        async function getPosts() {
 
             try {
                 await store.dispatch('posts/loadPosts', localStorage.getItem('buildingMember'))
@@ -130,9 +128,9 @@ export default {
             }
         }
 
-        init()
+        getPosts()
 
-        return {addPost, cancelPost, post, uploadPost, posts, addInteraction, buttonType, isValid, cancel, rowLength, addjustRowLength, reduceRowLength}
+        return {post, uploadPost, posts, addInteraction, buttonType, isValid, cancel, rowLength, addjustRowLength, reduceRowLength}
     }
 }
 </script>

@@ -84,8 +84,9 @@ export default {
             
         })
 
+        const ascendingPosts = posts.sort((a, b) => b.date - a.date)
 
-        return posts
+        return ascendingPosts
     },
 
 

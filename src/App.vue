@@ -1,4 +1,5 @@
 <template>
+  
   <theHeader/>
   <router-view/>
 </template>
@@ -7,6 +8,7 @@
 
 import TheHeader from './components/layouts/TheHeader.vue'
 import { useStore } from 'vuex'
+
 
 
 export default {
@@ -21,11 +23,14 @@ export default {
         console.log(err);
       }
     }
-    
+
+ 
   }
 }
 </script>
 
-<style>
+<style scoped>
+
+
 
 </style>
