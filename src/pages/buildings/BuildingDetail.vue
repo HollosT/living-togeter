@@ -4,7 +4,7 @@
         <p>{{building.description}}</p>
 
 
-        <base-button v-if="isLoggedIn && !isApplied" link :to="'/residents/' + building.id" type="filled" @click="apply">Join this community</base-button>
+        <base-button v-if="isLoggedIn && !isApplied" link :to="'/community/' + building.id" type="filled" @click="apply">Join this community</base-button>
         <div v-else-if="!isLoggedIn">
             <p>You need to log in to apply for this community</p>
             <router-link link to="/auth" type="filled">Login</router-link>
@@ -15,15 +15,16 @@
 
 <script>
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed, ref } from '@vue/runtime-core'
 import BaseButton from '@/components/UI/BaseButton.vue'
 export default {
   components: { BaseButton },
-
-    setup() {
+    props: ['building'],
+    setup(props) {
        const route = useRoute()
+       const router = useRouter()
        const store = useStore()
        const isApplied = ref(false)
 
@@ -62,7 +63,6 @@ export default {
             }
 
             store.dispatch('residents/apply', request)
-
        }
 
        return{building, isLoggedIn, apply, isApplied}

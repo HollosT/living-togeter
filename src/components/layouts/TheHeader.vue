@@ -148,7 +148,7 @@ nav {
   padding-block: 10%;
   z-index: 100;
   text-align: left;
-  width: 25vw;
+  width: 30vw;
 }
 
 nav li {

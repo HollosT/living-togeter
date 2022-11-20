@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import store from '../store/index.js'
+
 import buildingList from '../pages/buildings/BuildingList.vue'
-import residentList from '../pages/residents/ResidentList.vue'
 import buildingDetail from '../pages/buildings/BuildingDetail.vue'
 import buildingRegistration from '../pages/buildings/BuildingRegistration.vue'
 import useAuth from '../pages/auth/UseAuth.vue'
@@ -9,52 +11,56 @@ import profile from '../pages/profiles/Profile.vue'
 
 
 
-const routes = [
-  {
-    path: '/',
-    redirect: '/buildings'
-  },
-  {
-    path: '/buildings',
-    name: 'buildinglist',
-    component: buildingList,
-  },
-  {
-    path: '/buildings/:bid',
-    name: 'buildingDetail',
-    component: buildingDetail
-  },
-  {
-    path: '/buildings/registration',
-    name: 'buildingRegistration',
-    component: buildingRegistration
-  },
-  {
-    path: '/auth',
-    name: 'useAuth',
-    component: useAuth
-  },
-  {
-    path: '/residents/:bid',
-    name: 'residentlist',
-    component: residentList,
-  },
-  {
-    path: '/profiles/:id',
-    name: 'profile',
-    component: profile,
-  },
-  {
-    path: '/community/:bid',
-    name: 'community',
-    component: community,
-  }
-
-]
-
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+      history: createWebHistory(),
+      routes: [
+      {
+      path: '/',
+      redirect: '/buildings'
+      },
+      {
+      path: '/buildings',
+      name: 'buildinglist',
+      component: buildingList,
+      },
+      {
+      path: '/buildings/:bid',
+      name: 'buildingDetail',
+      component: buildingDetail
+      },
+      {
+      path: '/buildings/registration',
+      name: 'buildingRegistration',
+      component: buildingRegistration,
+      meta: {requiresAuth: true},
+      },
+      {
+      path: '/auth',
+      name: 'useAuth',
+      component: useAuth
+      },
+      {
+      path: '/profiles/:id',
+      name: 'profile',
+      component: profile,
+      meta: {requiresAuth: true},
+      },
+      {
+      path: '/community/:bid',
+      name: 'community',
+      component: community,
+      meta: {requiresAuth: true},
+      }
+
+      ]
+})
+
+router.beforeEach(function(to, _, next) {
+  if(to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next('/auth');
+  } else {
+    next()
+  }
 })
 
 export default router
