@@ -37,8 +37,8 @@ export default {
 span {
     display: flex;
     flex-direction: row;
-    gap: 3vw;
-    margin-bottom: 1vw;
+    gap: 1vw;
+    margin-right: 2vw;
 }
 
 

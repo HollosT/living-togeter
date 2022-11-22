@@ -1,6 +1,5 @@
 <template>
-        <h2>Filter</h2>
-        <div>
+        <div class="checkbox-container">
             
             <BaseCountryCheckBox
                 v-for="country in countries"
@@ -48,6 +47,10 @@ export default {
 </script>
 
 <style scoped>
-
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    margin-right: 5vw;
+}
 
 </style>

@@ -1,14 +1,19 @@
 <template>
   <base-card>
   <div class="intro">
-    <h2>Community list</h2>
-    <p>Find your neighbourhood and join the community</p>
+      <h2>Community list</h2>
+      <p>Find your neighbourhood and join the community</p>
+    
   </div>
 
-  <base-button @click="toggleFilter" type="filled" class="filter-icon"><i :class="filterClass"></i></base-button>
-
-  <div v-if="isFilter" class="filter-control">
-    <building-filter :countries="countryArr" :filters="filterCountry" @set-filter="setFilter" @search="searchByCommunityName"></building-filter>
+  <div class="filter-action">
+    <div>
+      <h3>filter:</h3>
+      <base-button @click="toggleFilter" type="filled"><i :class="filterClass"></i></base-button>
+    </div>
+    <div v-if="isFilter" class="filter-control">
+      <building-filter :countries="countryArr" :filters="filterCountry" @set-filter="setFilter" @search="searchByCommunityName"></building-filter>
+    </div>
   </div>
 
   <h2 v-if="!hasBuildings">There is no registered buildings yet!</h2>
@@ -90,15 +95,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .intro {
   text-align: center;
   margin-bottom: 3vw;
 }
 
 .filter-control {
-  display: flex;
-  flex-direction: column;
+  padding-block: 2vw;
 }
 
 .fa-filter {
@@ -106,7 +110,26 @@ export default {
 }
 
 .active {
-  color: var(--yellow);
+  color: var(--black);
 }
+
+.filter-action {
+  display: flex;
+  flex-direction: column;
+  background: var(--primarly);
+  width: 100%;
+  padding: 1% 3%;
+  border-radius: 10px;
+  gap: 2vw;
+  margin-block: 1vw 5vw;
+
+}
+
+.filter-action >div {
+  display: flex;
+  flex-direction: row;
+  gap: 2vw;
+}
+
 
 </style>
