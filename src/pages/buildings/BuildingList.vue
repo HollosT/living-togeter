@@ -6,7 +6,7 @@
   </div>
 
   <section>
-    <building-filter :countries="countryArr" :filters="filterCountry" @set-filter="setFilter"></building-filter>
+    <building-filter :countries="countryArr" :filters="filterCountry" @set-filter="setFilter" @search="searchByCommunityName"></building-filter>
   </section>
 
   <h2 v-if="!hasBuildings">There is no registered buildings yet!</h2>
@@ -31,15 +31,17 @@ export default {
     const isLoading = ref(true);
     const countryArr = ref([])
     const filterCountry = ref({})
+    const searchNameInput = ref('')
 
 
     const hasBuildings = computed(() => {
       return store.getters["buildings/hasBuildings"]
     })
 
+
+    // Filtering by checkboxes
     const filteredBuildings = computed(() => {
-      console.log(filterCountry.value);
-      
+
       const buildings = store.getters["buildings/buildings"]
       return buildings.filter(building => {
           for(const key in filterCountry.value) {
@@ -52,9 +54,12 @@ export default {
     })
 
     function setFilter(updatedFilters) {
-     
-      
       filterCountry.value = updatedFilters
+    }
+
+    function searchByCommunityName(searchInput) {
+      searchNameInput.value = searchInput
+      console.log(searchNameInput.value);
     }
 
     loadBuildings()
@@ -65,7 +70,7 @@ export default {
 
 
         const arr = store.getters["buildings/getCountries"]
-
+ 
         const obj = {}
         arr.forEach(a => {
            obj[a] = true
@@ -84,7 +89,7 @@ export default {
     }
     
 
-    return{ hasBuildings, isLoading, countryArr, filterCountry, setFilter, filteredBuildings}
+    return{ hasBuildings, isLoading, countryArr, filterCountry, setFilter, filteredBuildings, searchByCommunityName}
 
   }
 
