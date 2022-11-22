@@ -2,7 +2,7 @@
   <header>
    
       <div v-if="menuOpen" class="backdrop"></div>
-        <router-link to="/"><h1>Living together</h1></router-link> 
+        <router-link to="/" @click="initNavClasses"><h1>Living together</h1></router-link> 
         <i v-if="isLoggedIn" :class="[['fa-solid'], menuOpen ? ['fa-x'] : ['fa-bars'], ['fa-2x']]" @click="toggleMenu"></i>
       
       <transition-group name="nav">
@@ -42,8 +42,9 @@ import BaseButton from '../UI/BaseButton.vue'
 export default {
   components: { BaseButton },
 
-  setup() {
+  setup(props) {
     const store = useStore()
+
     const buildingId = ref('')
     const router = useRouter()
     const userId = ref('')
@@ -55,6 +56,7 @@ export default {
     const isLoggedIn = computed(() => {
       return store.getters.isAuthenticated
     })
+
 
     function initNavClasses () {
       memberActive.value = false
@@ -112,7 +114,7 @@ export default {
 
 
 
-    return{ isLoggedIn, logout, getMember, buildingId, getProfile, userId, toggleMenu, menuOpen, registerCommunity, registerActive, profileActive, memberActive}
+    return{ isLoggedIn, logout, getMember, buildingId, getProfile, userId, toggleMenu, menuOpen, registerCommunity, registerActive, profileActive, memberActive, initNavClasses}
   }
 
 }

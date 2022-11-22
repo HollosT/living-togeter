@@ -16,58 +16,33 @@
 </template>
 
 <script>
-import { computed, ref } from '@vue/runtime-core'
+import { ref, computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import BuildingItem from '@/components/buildings/BuildingItem.vue'
 import BuildingFilter from '@/components/buildings/BuildingFilter.vue'
-
+import useSearch  from '../../hooks/buildings/search.js'
 
 export default {
   components: { BuildingItem, BuildingFilter },
 
- 
   setup() {
     const store = useStore()
     const isLoading = ref(true);
     const countryArr = ref([])
-    const filterCountry = ref({})
-    const searchNameInput = ref('')
 
+    const {setFilter, searchByCommunityName, filteredBuildings, filterCountry} = useSearch()
 
     const hasBuildings = computed(() => {
       return store.getters["buildings/hasBuildings"]
     })
 
 
-    // Filtering by checkboxes
-    const filteredBuildings = computed(() => {
-
-      const buildings = store.getters["buildings/buildings"]
-      return buildings.filter(building => {
-          for(const key in filterCountry.value) {
-            if(filterCountry.value[key] && building.address.country === key) {
-              return true
-            }
-          }
-          return false;
-        })
-    })
-
-    function setFilter(updatedFilters) {
-      filterCountry.value = updatedFilters
-    }
-
-    function searchByCommunityName(searchInput) {
-      searchNameInput.value = searchInput
-      console.log(searchNameInput.value);
-    }
 
     loadBuildings()
     async function loadBuildings() {
       isLoading.value = true
       try{
         await store.dispatch('buildings/loadBuildings')
-
 
         const arr = store.getters["buildings/getCountries"]
  
@@ -78,7 +53,6 @@ export default {
 
         filterCountry.value = obj
 
-        
         countryArr.value = arr;
 
       } catch(err) {

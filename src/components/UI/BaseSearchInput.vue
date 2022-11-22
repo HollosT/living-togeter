@@ -7,23 +7,23 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+// import { watch } from '@vue/runtime-core';
 export default {
     props: ['id', 'type', 'label'],
     emits: ['search-community'],
     setup(_, context) {
         const searchInput = ref('');
-        let isTyping = false
+        // let isTyping = false
+
+        // watch(searchInput, (newValue, oldValue) => {
+        //     if(isTyping) {
+
+        //     }
+        // })
 
         function search() {
-            isTyping = true
-            const timer = setTimeout(() => {
-                isTyping = false
-                if(!isTyping) {
-                    context.emit('search-community', searchInput.value)
-                }
-                clearTimeout(timer)
-            }, 2000)
-
+            // isTyping = true
+            context.emit('search-community', searchInput.value)
         }
 
 
