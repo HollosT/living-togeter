@@ -7,22 +7,15 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-// import { watch } from '@vue/runtime-core';
+
 export default {
     props: ['id', 'type', 'label'],
     emits: ['search-community'],
     setup(_, context) {
         const searchInput = ref('');
-        // let isTyping = false
 
-        // watch(searchInput, (newValue, oldValue) => {
-        //     if(isTyping) {
-
-        //     }
-        // })
 
         function search() {
-            // isTyping = true
             context.emit('search-community', searchInput.value)
         }
 
@@ -32,6 +25,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+span {
+  display: flex;
+  gap: 2vw;
+}
+
+input {
+  width: 20vw;
+  border-radius: 10px;
+  border: 1px solid var(--primarly);
+}
 
 </style>

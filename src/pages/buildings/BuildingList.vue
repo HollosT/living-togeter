@@ -5,18 +5,22 @@
     <p>Find your neighbourhood and join the community</p>
   </div>
 
-  <section>
+  <base-button @click="toggleFilter" type="filled" class="filter-icon"><i :class="filterClass"></i></base-button>
+
+  <div v-if="isFilter" class="filter-control">
     <building-filter :countries="countryArr" :filters="filterCountry" @set-filter="setFilter" @search="searchByCommunityName"></building-filter>
-  </section>
+  </div>
 
   <h2 v-if="!hasBuildings">There is no registered buildings yet!</h2>
   <div v-else-if="hasBuildings && isLoading">Loading...</div>
-  <building-item v-else-if="hasBuildings && !isLoading" v-for="building in filteredBuildings" :key="building.id" :building="building"></building-item>
+  <ul v-else-if="hasBuildings && !isLoading">
+    <building-item  v-for="building in filteredBuildings" :key="building.id" :building="building"></building-item>
+  </ul>
   </base-card>
 </template>
 
 <script>
-import { ref, computed } from '@vue/runtime-core'
+import { ref, computed} from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import BuildingItem from '@/components/buildings/BuildingItem.vue'
 import BuildingFilter from '@/components/buildings/BuildingFilter.vue'
@@ -29,6 +33,8 @@ export default {
     const store = useStore()
     const isLoading = ref(true);
     const countryArr = ref([])
+    const isFilter = ref(false)
+    // const filterClass = ref([])
 
     const {setFilter, searchByCommunityName, filteredBuildings, filterCountry} = useSearch()
 
@@ -36,6 +42,20 @@ export default {
       return store.getters["buildings/hasBuildings"]
     })
 
+    function toggleFilter() {
+      isFilter.value = !isFilter.value
+    }
+
+    const filterClass = computed(() => {
+      if(!isFilter.value) {
+        return ['fa-solid fa-filter fa-2x']
+      } else {
+        return ['fa-solid fa-filter fa-2x active']
+      }
+
+    })
+
+    
 
 
     loadBuildings()
@@ -62,8 +82,7 @@ export default {
 
     }
     
-
-    return{ hasBuildings, isLoading, countryArr, filterCountry, setFilter, filteredBuildings, searchByCommunityName}
+    return{ hasBuildings, isLoading, countryArr, filterCountry, setFilter, filteredBuildings, searchByCommunityName, isFilter, toggleFilter, filterClass}
 
   }
 
@@ -75,6 +94,19 @@ export default {
 .intro {
   text-align: center;
   margin-bottom: 3vw;
+}
+
+.filter-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.fa-filter {
+  color: white;
+}
+
+.active {
+  color: var(--yellow);
 }
 
 </style>

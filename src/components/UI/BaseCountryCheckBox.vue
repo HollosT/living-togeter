@@ -1,7 +1,7 @@
 <template>
     <span>
-        <input type="checkbox" :id="id" checked @change="onChange" />
         <label :for="id" >{{id}}</label>
+        <input class="checkbox" type="checkbox" :id="id" checked @change="onChange" />
     </span>
 </template>
 
@@ -33,6 +33,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+span {
+    display: flex;
+    flex-direction: row;
+    gap: 3vw;
+    margin-bottom: 1vw;
+}
+
+
+
+input {
+    scale: 2;
+}
+
 
 </style>

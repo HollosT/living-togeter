@@ -1,18 +1,25 @@
 <template>
-   
-        <BaseCountryCheckBox
-            v-for="country in countries"
-            :key="country"
-            :id="country"
-            :filters="filters"
-            @set-filter="setFilter"
-             />
+        <h2>Filter</h2>
+        <div>
+            
+            <BaseCountryCheckBox
+                v-for="country in countries"
+                :key="country"
+                :id="country"
+                :filters="filters"
+                @set-filter="setFilter"
+                 />
+        </div>
 
-        <BaseSearchInput 
-        label="Enter the name of the community"
-        id="communityName"
-        type="text"
-        @search-community="search" />
+        <div class="input-search">
+            <BaseSearchInput 
+            label="Community name: "
+            id="communityName"
+            type="text"
+            @search-community="search" />
+
+        </div>
+
   
 </template>
 
@@ -40,6 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 
 </style>
