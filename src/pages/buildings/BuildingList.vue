@@ -18,7 +18,7 @@
 
   <h2 v-if="!hasBuildings">There is no registered buildings yet!</h2>
   <div v-else-if="hasBuildings && isLoading">Loading...</div>
-  <ul v-else-if="hasBuildings && !isLoading">
+  <ul v-else-if="hasBuildings && !isLoading" class="building-list-container">
     <building-item  v-for="building in filteredBuildings" :key="building.id" :building="building"></building-item>
   </ul>
   </base-card>
@@ -117,11 +117,12 @@ export default {
   display: flex;
   flex-direction: column;
   background: var(--primarly);
-  width: 100%;
+  width: 80%;
   padding: 1% 3%;
   border-radius: 10px;
   gap: 2vw;
-  margin-block: 1vw 5vw;
+  margin: auto;
+  margin-bottom: 2vw;
 
 }
 
@@ -129,6 +130,13 @@ export default {
   display: flex;
   flex-direction: row;
   gap: 2vw;
+}
+
+.building-list-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  justify-items: center;
 }
 
 
