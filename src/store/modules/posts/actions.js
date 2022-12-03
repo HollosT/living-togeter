@@ -118,42 +118,25 @@ export default {
 
     async interactionWithThePost(context, payload) {
         try{
-
             let interactionType = payload.mode
-
             // Checking whether the user already applied
-            const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)
-            
+            const post = await fetch(`https://living-together-90530-default-rtdb.europe-west1.firebasedatabase.app/posts/${payload.buildingId}/${payload.userId}/${payload.postId}.json`)   
             const postResponse = await post.json()
 
             let newInteraction;
 
             if(postResponse[interactionType] && postResponse[interactionType].includes(payload.curUser) ) {
                  context.dispatch('uninteraction', payload)
-
             } else {
-
                 switch(interactionType) {
                     case 'likes':
-                        newInteraction = payload.likes
-                        
+                        newInteraction = payload.likes        
                     break;
-
                     case 'dislikes': 
-                        newInteraction = payload.dislikes
-                  
-                    break;
-
-                    // case 'comments': 
-                    //     context.dispatch('addComment', payload)
-                    // break;     
-                }
-
-                
+                        newInteraction = payload.dislikes                  
+                    break; 
+                }               
                 newInteraction.push(payload.curUser)
-
-
-    
                 const interactionWannabe = {
                     userId: payload.userId,
                     email: payload.email,

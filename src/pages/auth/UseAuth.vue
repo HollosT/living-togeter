@@ -121,7 +121,10 @@ export default {
 </script>
 
 <style scoped>
-
+h2 {
+    margin-left: 35vw;
+    margin-bottom: 3vw;
+}
 .input-container {
         width: 80%;
         margin: auto;
